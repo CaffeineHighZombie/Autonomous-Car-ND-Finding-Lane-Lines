@@ -9,38 +9,50 @@ Pipeline
 The approach for this lane line detection broadly consisted of following steps:
 1. Color transformation of the RGB base image into Grayscale image.
 
+Original Image
 
-		Original Image
+![Image](./output_images/processed-hough-line-image.png)
 
-		Grayscale Image
+Grayscale Image
+
+![Image](./output_images/grayscale-image.png)
 
 2. Use of Gaussian smoothing with the kernel size of 5 pixels to smooth out the image and reduce noise.
 
+Gaussian Smoothed Image
 
-		Gaussian Smoothed Image
+![Image](./output_images/output-image.png)
 
 3. Detect edges using Canny Edge detection.
 
-Edge Detected Image	
+Edge Detected Image
+
+![Image](./output_images/roi-mask-applied-image.png)
 
 4. Given the lane lines would be available within the specific area of the image. Generating region of interest masks with polygonal shape and applying as a mask on the edge detected image.
 
-		ROI Mask Applied Image
+ROI Mask Applied Image
+
+![Image](./output_images/gaussian-smoothed-image.png)
 
 5. Generating Hough lines for the ROI mask applied image.
 
 6. Filtering & processing lines based on Hough Lines detection further computation chain to increase the accuracy and the detected lane extrapolation:
-	6.1. Finding the slope for each set of points detected by Hough transformation.
-	6.2. Segregating them into the distinct right lane and left lane based on the slope calculated above, such the line with the slope between +15 to +75 degrees was deemed to be left lane lines and -15 to -75 degrees was determined to be right lane line.
-	6.3. Outlier removal based for each of the lane line set based on the slope with 2 sigma bounds. This will help removal erroneous detections and also, significantly helped with the last challenge video to an extent to removal out spurious detection.
-	6.4. Fitting LinearRegression model on each of the outlier removed left and right lane dataset. 
-	6.5. Finding bottom and top coordinates for each left and right lane LinearRegression fitted model and drawing the lane lines.
-	
-Processed Hough Line Image		
+* Finding the slope for each set of points detected by Hough transformation.
+* Segregating them into the distinct right lane and left lane based on the slope calculated above, such the line with the slope between +15 to +75 degrees was deemed to be left lane lines and -15 to -75 degrees was determined to be right lane line.
+* Outlier removal based for each of the lane line set based on the slope with 2 sigma bounds. This will help removal erroneous detections and also, significantly helped with the last challenge video to an extent to removal out spurious detection.
+* Fitting LinearRegression model on each of the outlier removed left and right lane dataset. 
+* Finding bottom and top coordinates for each left and right lane LinearRegression fitted model and drawing the lane lines.
+
+Processed Hough Line Image
+
+![Image](./output_images/output-lane-detected-image.png)
 
 7. Splicing processed hough line image and the original image to create a lane demarcated composite image.  
 
-		Output Lane Detected Image
+Output Lane Detected Image
+
+![Image](./output_images/edge-detected-image.png)
 
 Potential Shortcomings with the current pipeline
 ---
